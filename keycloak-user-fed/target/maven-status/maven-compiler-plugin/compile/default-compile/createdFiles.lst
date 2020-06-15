@@ -1,5 +1,2 @@
 com\keycoak\userfed\FedUserStorageProvider.class
-com\keycoak\userfed\FedRepository.class
-com\keycoak\userfed\UserAdapter.class
-com\keycoak\userfed\FedUser.class
 com\keycoak\userfed\FedUserStorageProviderFactory.class

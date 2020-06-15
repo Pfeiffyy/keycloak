@@ -1,24 +1,24 @@
 package com.keycoak.userfed;
 
 
-public class FedUser {
+public class HitUser {
 
     private String id;
-    private String username;
+    private String hitNr;
     private String email;
     private String firstName;
     private String lastName;
     private String password;
 
-    public FedUser() {
+    public HitUser() {
     }
 
-    public FedUser(String id, String firstName, String lastName) {
+    public HitUser(String id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = (firstName + "." + lastName).toLowerCase();
-        this.email = this.username + "@entenhausen.com";
+        this.hitNr = (firstName + "." + lastName).toLowerCase();
+        this.email = this.hitNr + "@entenhausen.com";
         this.password = "beginn00";
     }
 
@@ -27,11 +27,11 @@ public class FedUser {
     }
 
     public String getUsername() {
-        return username;
+        return hitNr;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.hitNr = username;
     }
 
     public String getEmail() {

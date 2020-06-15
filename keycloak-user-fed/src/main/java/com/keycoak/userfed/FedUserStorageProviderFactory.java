@@ -26,9 +26,9 @@ public class FedUserStorageProviderFactory implements UserStorageProviderFactory
 	public FedUserStorageProvider create(KeycloakSession session, ComponentModel model) {
 		// here you can setup the user storage provider, initiate some connections, etc.
 
-		FedRepository repository = new FedRepository();
+		//FedRepository repository = new FedRepository();
 
-		return new FedUserStorageProvider(session, model, repository);
+		return new FedUserStorageProvider(session, model);
 	}
 
 	@Override

@@ -23,101 +23,97 @@ public class FedUserStorageProvider
 
 	private final KeycloakSession session;
 	private final ComponentModel model;
-	private final FedRepository repository;
 
-	public FedUserStorageProvider(KeycloakSession session, ComponentModel model, FedRepository repository) {
-		System.out.println("############################DemoUserStorageProvider#####################################"
-				+ repository);
+	public FedUserStorageProvider(KeycloakSession session, ComponentModel model) {
+		System.out.println("############################DemoUserStorageProvider#####################################");
 
 		this.session = session;
 		this.model = model;
-		this.repository = repository;
 	}
 
 	@Override
 	public boolean supportsCredentialType(String credentialType) {
-		System.out.println(
-				"############################supportsCredentialType##################################" + repository);
+		System.out.println("############################supportsCredentialType##################################");
 
 		return PasswordCredentialModel.TYPE.equals(credentialType);
 	}
 
 	@Override
 	public boolean isConfiguredFor(RealmModel realm, UserModel user, String credentialType) {
-		System.out
-				.println("############################isConfiguredFor##################################" + repository);
+		System.out.println("############################isConfiguredFor##################################");
 
 		return supportsCredentialType(credentialType);
 	}
 
 	@Override
 	public boolean isValid(RealmModel realm, UserModel user, CredentialInput input) {
-		System.out.println("############################isValid##################################" + repository);
+		System.out.println("############################isValid##################################");
 
 		if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
 			return false;
 		}
 		UserCredentialModel cred = (UserCredentialModel) input;
-		return repository.validateCredentials(user.getUsername(), cred.getChallengeResponse());
+		// return repository.validateCredentials(user.getUsername(),
+		// cred.getChallengeResponse());
+		return true;
 	}
 
 	@Override
 	public boolean updateCredential(RealmModel realm, UserModel user, CredentialInput input) {
-		System.out
-				.println("############################updateCredential##################################" + repository);
+		System.out.println("############################updateCredential##################################");
 
 		if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
 			return false;
 		}
 		UserCredentialModel cred = (UserCredentialModel) input;
-		return repository.updateCredentials(user.getUsername(), cred.getChallengeResponse());
+		// return repository.updateCredentials(user.getUsername(),
+		// cred.getChallengeResponse());
+		return true;
 	}
 
 	@Override
 	public void disableCredentialType(RealmModel realm, UserModel user, String credentialType) {
-		System.out.println(
-				"############################disableCredentialType##################################" + repository);
+		System.out.println("############################disableCredentialType##################################");
 
 	}
 
 	@Override
 	public Set<String> getDisableableCredentialTypes(RealmModel realm, UserModel user) {
-		System.out.println("############################getDisableableCredentialTypes##################################"
-				+ repository);
+		System.out
+				.println("############################getDisableableCredentialTypes##################################");
 
 		return Collections.emptySet();
 	}
 
 	@Override
 	public void preRemove(RealmModel realm) {
-		System.out.println("############################preRemove##################################" + repository);
+		System.out.println("############################preRemove##################################");
 
 	}
 
 	@Override
 	public void preRemove(RealmModel realm, GroupModel group) {
-		System.out.println("############################preRemove2##################################" + repository);
+		System.out.println("############################preRemove2##################################");
 
 	}
 
 	@Override
 	public void preRemove(RealmModel realm, RoleModel role) {
-		System.out.println("############################preRemove3##################################" + repository);
+		System.out.println("############################preRemove3##################################");
 	}
 
 	@Override
 	public void close() {
 		System.out.println(
-				"############################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##################################"
-						+ repository);
+				"############################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##################################");
 	}
 
 	@Override
 	public UserModel getUserById(String id, RealmModel realm) {
-		System.out.println("############################getUserById##################################" + repository);
+		System.out.println("############################getUserById##################################");
 
 		String externalId = StorageId.externalId(id);
-		return new UserAdapter(session, realm, model, repository.findUserById(externalId));
+		return new HitUserAdapter(session, realm, model, getUserfromHit(externalId));
 	}
 
 	@Override
@@ -125,9 +121,13 @@ public class FedUserStorageProvider
 		System.out
 				.println("############################getUserByUsername##################################" + username);
 
-		// Hier baue ich die Abfrage ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¼ber den HIT rein!!!!!
+		// Hier baue ich die Abfrage
+		// ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¼ber
+		// den HIT rein!!!!!
 
-		FedUser user = repository.findUserByUsernameOrEmail(username);
+		// FedUser user = repository.findUserByUsernameOrEmail(username);
+
+		HitUser user = getUserfromHit(username);
 
 		// Zugriff auf Webservice
 		// HoleUserWennVorhanden(username);
@@ -135,16 +135,28 @@ public class FedUserStorageProvider
 // diee Abfrage hat mich 2 Tage meines Lebens gekostet!!!!
 		if (user != null) {
 
-			return new UserAdapter(session, realm, model, user);
+			return new HitUserAdapter(session, realm, model, user);
 		} else {
 			return null;
 		}
 
 	}
 
+	private HitUser getUserfromHit(String username) {
+		// TODO Auto-generated method stub
+		HitUser hu = new HitUser();
+		hu.setFirstName("Hans");
+		hu.setLastName("Dampf");
+		hu.setEmail("Hans@dampf.de");
+		hu.setUsername(username);
+		hu.setPassword(hu.getEmail());
+
+		return null;
+	}
+
 	@Override
 	public UserModel getUserByEmail(String email, RealmModel realm) {
-		System.out.println("############################getUserByEmail##################################" + repository);
+		System.out.println("############################getUserByEmail##################################");
 
 		return getUserByUsername(email, realm);
 	}

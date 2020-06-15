@@ -7,12 +7,12 @@ import org.keycloak.storage.StorageId;
 import org.keycloak.storage.adapter.AbstractUserAdapterFederatedStorage;
 
 
-public class UserAdapter extends AbstractUserAdapterFederatedStorage {
+public class HitUserAdapter extends AbstractUserAdapterFederatedStorage {
 
-    private final FedUser user;
+    private final HitUser user;
     private final String keycloakId;
 
-    public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel model, FedUser user) {
+    public HitUserAdapter(KeycloakSession session, RealmModel realm, ComponentModel model, HitUser user) {
         super(session, realm, model);
         this.user = user;
         System.out.println("******************************************************************************************");
