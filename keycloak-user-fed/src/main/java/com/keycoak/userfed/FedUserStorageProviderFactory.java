@@ -17,6 +17,7 @@ public class FedUserStorageProviderFactory implements UserStorageProviderFactory
 
 	    // this configuration is pulled from the SPI configuration of this provider in the standalone[-ha] / domain.xml
 	    // see setup.cli
+		  System.out.println("##########################FedUserStorageProviderFactory###############################");
 
 	  }
 	

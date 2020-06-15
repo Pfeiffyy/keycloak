@@ -18,9 +18,8 @@ import org.keycloak.storage.user.UserLookupProvider;
 import java.util.Collections;
 import java.util.Set;
 
-
-public class FedUserStorageProvider implements UserStorageProvider, UserLookupProvider, 
-		CredentialInputUpdater, CredentialInputValidator {
+public class FedUserStorageProvider
+		implements UserStorageProvider, UserLookupProvider, CredentialInputUpdater, CredentialInputValidator {
 
 	private final KeycloakSession session;
 	private final ComponentModel model;
@@ -37,14 +36,16 @@ public class FedUserStorageProvider implements UserStorageProvider, UserLookupPr
 
 	@Override
 	public boolean supportsCredentialType(String credentialType) {
-		System.out.println("############################supportsCredentialType##################################" + repository);
+		System.out.println(
+				"############################supportsCredentialType##################################" + repository);
 
 		return PasswordCredentialModel.TYPE.equals(credentialType);
 	}
 
 	@Override
 	public boolean isConfiguredFor(RealmModel realm, UserModel user, String credentialType) {
-		System.out.println("############################isConfiguredFor##################################" + repository);
+		System.out
+				.println("############################isConfiguredFor##################################" + repository);
 
 		return supportsCredentialType(credentialType);
 	}
@@ -62,7 +63,8 @@ public class FedUserStorageProvider implements UserStorageProvider, UserLookupPr
 
 	@Override
 	public boolean updateCredential(RealmModel realm, UserModel user, CredentialInput input) {
-		System.out.println("############################updateCredential##################################" + repository);
+		System.out
+				.println("############################updateCredential##################################" + repository);
 
 		if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
 			return false;
@@ -73,13 +75,15 @@ public class FedUserStorageProvider implements UserStorageProvider, UserLookupPr
 
 	@Override
 	public void disableCredentialType(RealmModel realm, UserModel user, String credentialType) {
-		System.out.println("############################disableCredentialType##################################" + repository);
+		System.out.println(
+				"############################disableCredentialType##################################" + repository);
 
 	}
 
 	@Override
 	public Set<String> getDisableableCredentialTypes(RealmModel realm, UserModel user) {
-		System.out.println("############################getDisableableCredentialTypes##################################" + repository);
+		System.out.println("############################getDisableableCredentialTypes##################################"
+				+ repository);
 
 		return Collections.emptySet();
 	}
@@ -103,7 +107,9 @@ public class FedUserStorageProvider implements UserStorageProvider, UserLookupPr
 
 	@Override
 	public void close() {
-		System.out.println("############################close##################################" + repository);
+		System.out.println(
+				"############################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##############################################################close##################################"
+						+ repository);
 	}
 
 	@Override
@@ -119,9 +125,13 @@ public class FedUserStorageProvider implements UserStorageProvider, UserLookupPr
 		System.out
 				.println("############################getUserByUsername##################################" + username);
 
-		// Hier baue ich die Abfrage über den HIT rein!!!!!
+		// Hier baue ich die Abfrage ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¼ber den HIT rein!!!!!
 
 		FedUser user = repository.findUserByUsernameOrEmail(username);
+
+		// Zugriff auf Webservice
+		// HoleUserWennVorhanden(username);
+
 // diee Abfrage hat mich 2 Tage meines Lebens gekostet!!!!
 		if (user != null) {
 
@@ -138,6 +148,5 @@ public class FedUserStorageProvider implements UserStorageProvider, UserLookupPr
 
 		return getUserByUsername(email, realm);
 	}
-
 
 }

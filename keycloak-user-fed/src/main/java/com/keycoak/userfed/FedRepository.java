@@ -11,8 +11,8 @@ class FedRepository {
     FedRepository() {
         users = Arrays.asList(
                 new FedUser("1", "Tom", "Cat"),
-                new FedUser("3", "Jerry", "Mouse"),
-                new FedUser("5", "Donald", "Duck")
+                new FedUser("2", "Jerry", "Mouse"),
+                new FedUser("3", "Donald", "Duck")
         );
     }
 
