@@ -20,7 +20,7 @@
 		<resteasy.version>3.11.2.Final</resteasy.version>
 		<bouncycastle.version>1.65</bouncycastle.version>
 		<jboss.logging.version>3.4.1.Final</jboss.logging.version>
-		<apache.httpcomponents.version>4.5.12</apache.httpcomponents.version>
+		<apache.httpcomponents.version>4.5.13</apache.httpcomponents.version>
 	</properties>
 	<dependencies>
 		<dependency>
